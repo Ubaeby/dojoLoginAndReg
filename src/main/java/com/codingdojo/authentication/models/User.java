@@ -1,14 +1,19 @@
 package com.codingdojo.authentication.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 
 @Entity
 @Table(name="users")
@@ -33,8 +38,20 @@ public class User {
     @NotEmpty(message="Confirm Password is required!")
     @Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
     private String confirm;
+    
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<Book> books;
   
-    public User() {}
+
+	public User() {}
+	
+    public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 
 	public Long getId() {
 		return id;
