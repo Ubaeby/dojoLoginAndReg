@@ -2,6 +2,7 @@ package com.codingdojo.authentication.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,17 @@ public class User {
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private List<Book> books;
   
+	@Column(updatable=false)
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<Book> borrowedBooks;
+
+	public List<Book> getBorrowedBooks() {
+		return borrowedBooks;
+	}
+
+	public void setBorrowedBooks(List<Book> borrowedBooks) {
+		this.borrowedBooks = borrowedBooks;
+	}
 
 	public User() {}
 	

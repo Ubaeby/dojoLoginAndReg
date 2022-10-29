@@ -13,4 +13,6 @@ import com.codingdojo.authentication.models.User;
 public interface BookRepository extends CrudRepository<Book, Long> {
 	List<Book> findAll();
 	List<Book> findAllByUser(User user);
+	List<Book> findByBorrowerId(Long userId);
+	List<Book> findByBorrowerIdOrUserId(Long borrowerId, Long userId);
 }

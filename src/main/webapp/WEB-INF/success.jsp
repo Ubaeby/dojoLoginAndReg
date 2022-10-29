@@ -20,6 +20,7 @@
 	<div>
 		<p>Books from everyone's shelves:</p>
 		<a href="books/new">Add a book to my shelf!</a>
+		<a href="/bookmarket">Looking to borrow a book?</a>
 	</div>
 
 <table>
@@ -43,6 +44,7 @@
 		</c:forEach>
 		
 	</tbody>
+	
 </table>
 
 

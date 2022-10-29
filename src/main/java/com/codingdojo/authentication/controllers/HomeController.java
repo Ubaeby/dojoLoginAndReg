@@ -153,4 +153,52 @@ public class HomeController {
 		bookService.deleteBook(id);
 		return "redirect:/books";
 	}
+	
+	// --------------- Book Broker Routes below ------------------------------------------------
+	
+	
+	@GetMapping("/bookmarket")
+	public String showBookMarket( HttpSession session, Model model) {
+		if(session.getAttribute("userId") == null) {
+			return "redirect:/book";
+		}
+		Long userId = (Long) session.getAttribute("userId");
+		List<Book> borrowed = bookService.borrowedBooks(userService.find(userId));
+		List<Book> unBorrowed = bookService.notBorrowedBooks(userService.find(userId));
+		
+		model.addAttribute("users", userService.find(userId));
+		model.addAttribute("bBooks", borrowed);
+		model.addAttribute("uBooks", unBorrowed);
+		
+		return "bookmarket.jsp";
+	}
+	
+	@GetMapping("/bookmarket/{bookId}")
+	public String borrowBook(
+			@PathVariable("bookId") Long bookId, HttpSession session) {
+		
+		Long userId = (Long) session.getAttribute("userId");
+		
+		if (userId == null) {
+			return "redirect:/logout";
+		}
+		
+		bookService.addBorrower(bookService.findBook(bookId), userService.find(userId));
+		return "redirect:/bookmarket";
+	}
+	
+	@GetMapping("/bookmarket/return/{bookId}")
+	public String returnBook(
+			@PathVariable("bookId") Long bookId, HttpSession session) {
+		Long userId = (Long) session.getAttribute("userId");
+		
+		if (userId == null) {
+			return "redirect:/logout";
+		}
+		
+		bookService.removeBorrower(bookService.findBook(bookId));
+		return "redirect:/bookmarket";
+	}
+	
+	
 }
